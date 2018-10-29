@@ -7,13 +7,13 @@ static int GetInex(int start,int end){
 	return index;
 }
 
-void setmine(char Mine[ROWS][COLS],int start,int end)
+void setmine(char Mine[][COLS],int _rows,int _cols)
 {
 	int x, y;
 	srand((unsigned)time(NULL));
  	for (int i = 0; i < MINE_COUNT;){
-		x = GetInex(1, ROWS - 2);
-		y = GetInex(1, COLS - 2);
+		x = GetInex(1, _rows - 2);
+		y = GetInex(1, _cols - 2);
 		if (Mine[x][y] == '0'){
 			Mine[x][y] = '1';
 			i++;
@@ -41,19 +41,23 @@ void setmine(char Mine[ROWS][COLS],int start,int end)
 	printf("\n");
 }
 
- void Play(int mine[][COLS], int show[][COLS], int _row, int _cols){
+ void Play(char mine[][COLS], char show[][COLS], int _row, int _cols){
+	 int x, y;
+	 showbroad(show, ROWS, COLS);
+	 showbroad(mine, ROWS, COLS);
 	 while (1)
 	 {
-		 int x, y;
 		 int count=0;
-
 		 printf("Please Enter <rows,cols>:\n");
-		 scanf("%d %d", &x, &y);
+		 scanf("%d%d", &x, &y); 
 		 if ((x >= 1 && x <= _row - 2) && (y >= 1 && y <= _cols)){
+			 printf("%c",mine[x][y]);
 			 if (mine[x][y] == '0'){
 				 int num = GetNearMine(mine,x,y);
 				 show[x][y] = num+'0';
+				 showbroad(mine, ROWS, COLS);
 				 count++;
+				 showbroad(show, ROWS, COLS);
 				 if ((ROWS - 2)*(COLS - 2) - count == MINE_COUNT){
 					 printf("YOU WIN");
 					 break;
@@ -84,9 +88,8 @@ void game()
 	memset(show, '*', sizeof(show));
 
 	setmine(mine, ROWS, COLS);
-	showbroad(show, ROWS, COLS);
-	showbroad(mine, ROWS, COLS);
-	Play(mine[ROWS][COLS],show[ROWS][COLS],ROWS,COLS);
+
+	Play(mine,show,ROWS,COLS);
 	//for (int i = 1; i <=ROWS-2 ; i++){
 	//	printf("\n");
 	//	for (int j = 1; j <= COLS-2;j++){

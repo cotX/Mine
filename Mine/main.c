@@ -11,11 +11,10 @@ static void menu()
 int main()
 {
 	int select;
-	menu(); 
-
+	menu();			//显示菜单
 	scanf("%d", &select);
 	if (select == 1){
-		game();
+		game();		//开始游戏
 	}
 	else exit(0);
 	system("pause");

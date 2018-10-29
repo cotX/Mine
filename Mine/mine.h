@@ -13,7 +13,7 @@
 
 #pragma warning(disable:4996)
 
-void setmine(char Mine[][COLS], int _rows, int _cols);
+void setmine(char Mine[][COLS], int _rows, int _cols, int user_x, int user_y);
 void showbroad(char show[][COLS], int _rows, int _cols);
 void Play(char show[][COLS], char mine[][COLS], int _row, int _cols);
 int GetNearMine(char mine[][COLS], int _x, int _y);

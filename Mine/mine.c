@@ -97,7 +97,7 @@ void Expand(char mine[][COLS],char show[][COLS],int user_x,int user_y,int *p)
 			 i--;
 			 //showbroad(mine, ROWS, COLS);
 		 }
-		 if ((x >= 1 && x <= _row - 2) && (y >= 1 && y <= _cols))		//检查输入是否合法
+		 if ((x >= 1 && x <= _row - 2) && (y >= 1 && y <= _cols-2))		//检查输入是否合法
 		 {		
 			 if (mine[x][y] == '0')										//没有踩雷
 			 {									
@@ -128,7 +128,7 @@ void game()
 {
 	char mine[ROWS][COLS];
 	char show[ROWS][COLS];
-	memset(mine, '0', sizeof(mine));		//初始化两个面板
+	memset(mine, '0', sizeof(mine));		//设置两个面板
 	memset(show, '*', sizeof(show));
 
 	Play(mine,show,ROWS,COLS);		

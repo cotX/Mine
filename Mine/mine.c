@@ -51,13 +51,45 @@ void setmine(char Mine[][COLS],int _rows,int _cols,int user_x,int user_y)
 		 mine[_x + 1][_y - 1] + mine[_x + 1][_y] + mine[_x + 1][_y + 1] - 8 * '0';
  }
 
- /*游戏开始*/
+ /*展开*/
+void Expand(char mine[][COLS],char show[][COLS],int user_x,int user_y,int *p)
+ {
+	 int x;
+	 int y;
+	 for (int i = 0; i < 8; i++){						//以输入坐标为中心逐个判断
+		 x = user_x;
+		 y = user_y;
+		 
+		 switch (i){
+		 case(0) : x--; y--; break;
+		 case(1) : x--;		 break;
+		 case(2) : x--; y++; break;
+		 case(3) : y--;		 break;
+		 case(4) : y++;		 break;
+		 case(5) : x++; y--; break;
+		 case(6) : x++;		 break;
+		 case(7) : x++; y++; break;
+		 }
+		 if (x<1 || x>10 || y<1 || y>10||show[x][y]!='*'){ continue; }		//坐标越界或被排查过则跳过
+
+		 int _num = GetNearMine(mine, x, y);
+		 show[x][y] = _num + '0';
+		 (*p)++;
+
+		 if (_num == 0){
+			 Expand(mine, show, x, y,p);				//递归
+		 }
+	 }
+ }
+
+ /*游戏逻辑*/
  void Play(char mine[][COLS], char show[][COLS], int _row, int _cols){
 	 int x, y, i = 1;
 	 showbroad(show, ROWS, COLS);
+	 int count = 0;
+	 int *p = &count;
 	 while (1)
 	 {
-		 int count=0;
 		 printf("Please Enter <rows,cols>:\n");
 		 scanf("%d%d", &x, &y); 
 		 if (i){
@@ -71,10 +103,14 @@ void setmine(char Mine[][COLS],int _rows,int _cols,int user_x,int user_y)
 			 {									
 				 int num = GetNearMine(mine,x,y);						//统计周围雷个数
 				 show[x][y] = num+'0';
-				 count++;
+				 (*p)++;
+				 if (num == 0){											
+					 Expand(mine, show, x, y,p);						//展开
+				 }
 				 system("cls");											//刷新
 				 showbroad(show, ROWS, COLS);
-				 if ((ROWS - 2)*(COLS - 2) - count == MINE_COUNT){		//排完所有雷
+				 //showbroad(mine, ROWS, COLS);
+				 if ((ROWS - 2)*(COLS - 2) - *p == MINE_COUNT){		//排完所有雷
 					 printf("YOU WIN! :)\n");
 					 break;
 				 }
@@ -87,7 +123,7 @@ void setmine(char Mine[][COLS],int _rows,int _cols,int user_x,int user_y)
 	 }
  }
 
-
+ /*进入游戏*/
 void game()
 {
 	char mine[ROWS][COLS];

@@ -1,5 +1,5 @@
 #include "mine.h"
-
+/*²Ëµ¥*/
 static void menu()
 {
 	printf("#########################\n");

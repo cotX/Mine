@@ -23,13 +23,14 @@ void setmine(char Mine[][COLS],int _rows,int _cols,int user_x,int user_y)
 }
 
 /*显示面板*/
- void showbroad(char show[][COLS], int _rows, int _cols)		
+ void showbroad(char show[][COLS], int _rows, int _cols,char *p)		
 {
 	printf("   ");
 	for (int i = 1; i < _cols-1; i++)
 	{
 		printf("%d ", i);
 	}
+//	printf("   剩余雷数：%d", MINE_COUNT - *p);
 	printf("\n  ");
 	for (int i = 1; i<_cols-1; i++){
 		printf("__");
@@ -85,9 +86,9 @@ void Expand(char mine[][COLS],char show[][COLS],int user_x,int user_y,int *p)
  /*游戏逻辑*/
  void Play(char mine[][COLS], char show[][COLS], int _row, int _cols){
 	 int x, y, i = 1;
-	 showbroad(show, ROWS, COLS);
 	 int count = 0;
 	 int *p = &count;
+	 showbroad(show, ROWS, COLS,p);
 	 while (1)
 	 {
 		 printf("Please Enter <rows,cols>:\n");
@@ -108,7 +109,7 @@ void Expand(char mine[][COLS],char show[][COLS],int user_x,int user_y,int *p)
 					 Expand(mine, show, x, y,p);						//展开
 				 }
 				 system("cls");											//刷新
-				 showbroad(show, ROWS, COLS);
+				 showbroad(show, ROWS, COLS,p);
 				 //showbroad(mine, ROWS, COLS);
 				 if ((ROWS - 2)*(COLS - 2) - *p == MINE_COUNT){		//排完所有雷
 					 printf("YOU WIN! :)\n");
